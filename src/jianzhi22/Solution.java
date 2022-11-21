@@ -1,5 +1,7 @@
 package jianzhi22;
 
+import java.util.List;
+
 class ListNode {
     int val;
     ListNode next;
@@ -34,5 +36,20 @@ public class Solution {
             fast = fast.next;
         }
         return slow;
+    }
+
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        int n = 0;
+        ListNode p = head;
+        while (p != null) {
+            n++;
+            p = p.next;
+        }
+        int a = n - k;
+        p = head;
+        for (int i = 0; i <  a; i++) {
+            p = p.next;
+        }
+        return p;
     }
 }
