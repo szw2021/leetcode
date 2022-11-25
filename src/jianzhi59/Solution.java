@@ -16,7 +16,7 @@ class MaxQueue {
         if (queue2.size() == 0) {
             return -1;
         }
-        return queue2.peek();
+        return queue2.peekFirst();
     }
 
     public void push_back(int value) {
@@ -35,9 +35,42 @@ class MaxQueue {
         if (queue1.size() == 0) {
             return -1;
         }
+        //todo Integer
         if (queue1.peek().equals(queue2.peek())) {
             queue2.poll();
         }
         return queue1.poll();
+    }
+
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+        int[] res = new int[nums.length - k + 1];
+        Deque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < k; i++) {
+            while (!deque.isEmpty() && deque.peekLast() < nums[i]) {
+                deque.pollLast();
+            }
+            deque.offer(nums[i]);
+        }
+
+        int index = 0;
+        res[index++] = deque.peekFirst();
+        for (int i = k; i < nums.length; i++) {
+            int pop = nums[i - k];
+            if (pop == deque.peekFirst()) {
+                deque.pollFirst();
+            }
+            while (!deque.isEmpty() && deque.peekLast() < nums[i]) {
+                deque.pollLast();
+            }
+            deque.offer(nums[i]);
+            res[index++] = deque.peekFirst();
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = new int[] {1, 3, -1, -3, 5, 3, 6, 7};
+        int[] ints = maxSlidingWindow(arr, 3);
+
     }
 }
